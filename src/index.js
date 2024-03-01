@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/user.context";
 import { StepsProvider } from "./context/form.context";
+import { BuildingsProvider } from "./context/variable.context";
+import { DropdownProvider } from "./context/dropdown.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,7 +15,11 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <StepsProvider>
-          <App />
+          <BuildingsProvider>
+            <DropdownProvider>
+              <App />
+            </DropdownProvider>
+          </BuildingsProvider>
         </StepsProvider>
       </UserProvider>
     </BrowserRouter>

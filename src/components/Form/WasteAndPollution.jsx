@@ -7,15 +7,25 @@ import { AppContext } from "../../context/form.context";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import MapModal from "../Modal/Modal";
 import { useJsApiLoader } from "@react-google-maps/api";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import PreviewModal from "../Modal/PreviewModal";
 
 export default function WasteAndPollution() {
-  const [open, setOpen] = useState(false);
+  const [openImg, setImgOpen] = useState(false);
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [city, setCity] = useState("");
+  const [locationOpen, setLocationOpen] = useState(false);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBcToE_NsPbwhi45kvxkmtBZVVmiAtjPqc",
   });
+  const [previewImgSrc, setPreviewImgSrc] = useState("");
+  const [
+    constructionWasteManagementImgSrc,
+    setConstructionWasteManagementImgSrc,
+  ] = useState();
+  const [wasteDisposalFacilitiesImgSrc, setWasteDisposalFacilitiesImgSrc] =
+    useState();
   const { formValues, handleChange, handleBack, handleNext, variant, margin } =
     useContext(AppContext);
 
@@ -25,6 +35,9 @@ export default function WasteAndPollution() {
     publicTransportAccess,
     wasteDisposalFacilities,
     lowEmittingVehicles,
+    constructionWasteManagementUrl,
+    wasteDisposalFacilitiesUrl,
+    publicTransportAccessCoordinate,
   } = formValues;
 
   const isError = useCallback(
@@ -35,6 +48,9 @@ export default function WasteAndPollution() {
         publicTransportAccess,
         wasteDisposalFacilities,
         lowEmittingVehicles,
+        constructionWasteManagementUrl,
+        wasteDisposalFacilitiesUrl,
+        publicTransportAccessCoordinate,
       }).some(
         (name) =>
           (formValues[name].required && !formValues[name].value) ||
@@ -47,14 +63,37 @@ export default function WasteAndPollution() {
       publicTransportAccess,
       wasteDisposalFacilities,
       lowEmittingVehicles,
+      constructionWasteManagementUrl,
+      wasteDisposalFacilitiesUrl,
+      publicTransportAccessCoordinate,
     ]
   );
   const onFileChange = (event) => {
     console.log(event.target.files[0]);
   };
-
   useEffect(() => {
-    console.log(isLoaded);
+    //Construction waste management
+    if (constructionWasteManagementUrl.value) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setConstructionWasteManagementImgSrc(reader.result);
+      };
+      reader.readAsDataURL(constructionWasteManagementUrl.value);
+    } else {
+      setConstructionWasteManagementImgSrc(null);
+    }
+    //Waste Disposal Facilities
+    if (wasteDisposalFacilitiesUrl.value) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setWasteDisposalFacilitiesImgSrc(reader.result);
+      };
+      reader.readAsDataURL(wasteDisposalFacilitiesUrl.value);
+    } else {
+      setWasteDisposalFacilitiesImgSrc(null);
+    }
+  }, [constructionWasteManagementUrl.value, wasteDisposalFacilitiesUrl.value]);
+  useEffect(() => {
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
       const latlng = new window.google.maps.LatLng(lat, lng);
@@ -79,20 +118,21 @@ export default function WasteAndPollution() {
     }
   }, [isLoaded, lat, lng]);
   const handleSave = () => {
-    console.log(lat);
-    console.log(lng);
-    console.log("city", city);
-    setOpen(false);
+    publicTransportAccessCoordinate.value = city;
+    setLocationOpen(false);
   };
   return (
     <>
       <MapModal
-        open={open}
-        setOpen={setOpen}
+        open={locationOpen}
+        setOpen={setLocationOpen}
         onSave={handleSave}
         setLat={setLat}
         setLng={setLng}
       />
+      <PreviewModal open={openImg} setOpen={setImgOpen}>
+        <img src={previewImgSrc} />
+      </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
           <TextField
@@ -111,18 +151,44 @@ export default function WasteAndPollution() {
             required={constructionWasteManagement.required}
           />
           <Button variant="contained" component="label">
-            <label for="cameraFileInput">
-              <span class="btn">*Attach a photo </span>
+            <label for="constructionWasteManagementUrl">
+              <AddPhotoAlternateIcon />
               <input
-                id="cameraFileInput"
+                style={{ display: "none" }}
+                id="constructionWasteManagement"
                 type="file"
                 accept="image/*"
                 capture="environment"
-                required
-                onChange={(event) => onFileChange(event)}
+                name="constructionWasteManagementUrl"
+                onChange={handleChange}
+                error={!!constructionWasteManagementUrl.error}
+                helperText={constructionWasteManagementUrl.error}
+                required={constructionWasteManagementUrl.required}
               />
             </label>
           </Button>
+          {constructionWasteManagementUrl.value && (
+            <span className="valueInput">
+              ({constructionWasteManagementUrl.value.name})
+            </span>
+          )}
+          <span>
+            {constructionWasteManagementImgSrc && (
+              <img
+                onClick={() => {
+                  setPreviewImgSrc(constructionWasteManagementImgSrc);
+                  setImgOpen(true);
+                }}
+                src={constructionWasteManagementImgSrc}
+                width="50"
+                height="50"
+                alt=""
+              />
+            )}
+          </span>
+          <h5 style={{ color: "red" }}>
+            {constructionWasteManagementUrl.error}
+          </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
           <TextField
@@ -161,14 +227,24 @@ export default function WasteAndPollution() {
           <Button
             variant="contained"
             component="label"
-            onClick={() => setOpen(true)}
+            onClick={() => setLocationOpen(true)}
           >
             <label>
-              <span className="btn">Attach a Map</span>
-              <AddLocationAltIcon />{" "}
+              <AddLocationAltIcon />
             </label>
-            <span>{lat}</span>
-            <span>:{lng}</span>
+            <TextField
+              variant={variant}
+              margin={margin}
+              fullWidth
+              disabled
+              type="text"
+              name="publicTransportAccessCoordinate"
+              value={publicTransportAccessCoordinate.value}
+              onChange={handleChange}
+              error={!!publicTransportAccessCoordinate.error}
+              helperText={publicTransportAccessCoordinate.error}
+              required={publicTransportAccessCoordinate.required}
+            />
           </Button>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
@@ -188,18 +264,42 @@ export default function WasteAndPollution() {
             required={wasteDisposalFacilities.required}
           />
           <Button variant="contained" component="label">
-            <label for="cameraFileInput">
-              <span class="btn">*Attach a photo </span>
+            <label for="wasteDisposalFacilitiesUrl">
+              <AddPhotoAlternateIcon />
               <input
-                id="cameraFileInput"
+                style={{ display: "none" }}
+                id="wasteDisposalFacilities"
                 type="file"
                 accept="image/*"
                 capture="environment"
-                required
-                onChange={(event) => onFileChange(event)}
+                name="wasteDisposalFacilitiesUrl"
+                onChange={handleChange}
+                error={!!wasteDisposalFacilitiesUrl.error}
+                helperText={wasteDisposalFacilitiesUrl.error}
+                required={wasteDisposalFacilitiesUrl.required}
               />
             </label>
           </Button>
+          {wasteDisposalFacilitiesUrl.value && (
+            <span className="valueInput">
+              ({wasteDisposalFacilitiesUrl.value.name})
+            </span>
+          )}
+          <span>
+            {wasteDisposalFacilitiesImgSrc && (
+              <img
+                onClick={() => {
+                  setPreviewImgSrc(wasteDisposalFacilitiesImgSrc);
+                  setImgOpen(true);
+                }}
+                src={wasteDisposalFacilitiesImgSrc}
+                width="50"
+                height="50"
+                alt=""
+              />
+            )}
+          </span>
+          <h5 style={{ color: "red" }}>{wasteDisposalFacilitiesUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
           <TextField

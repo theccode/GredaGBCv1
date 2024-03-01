@@ -24,7 +24,50 @@ const Variables = () => {
   const { buildingsMap } = useContext(BuildingsContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const computeStarRating = (rating) => {
+    if (rating >= 106 && rating <= 130) {
+      return (
+        <Box>
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+        </Box>
+      );
+    } else if (rating >= 80 && rating <= 105) {
+      return (
+        <Box>
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+        </Box>
+      );
+    } else if (rating >= 60 && rating <= 79) {
+      return (
+        <Box>
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+        </Box>
+      );
+    } else if (rating >= 45 && rating <= 59) {
+      return (
+        <Box>
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+        </Box>
+      );
+    } else {
+      return (
+        <Box>
+          <GradeIcon sx={{ color: "#f7dc0e" }} />
+        </Box>
+      );
+    }
+  };
+  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
 
   //force update
@@ -36,7 +79,7 @@ const Variables = () => {
     const rows = Object.keys(buildingsMap).map((name, idx) => ({
       id: idx,
       name: name,
-      date: null,
+      date: convertFirestoreTimestamp(buildingsMap[name][0].date),
       score: buildingsMap[name][0].ratings,
       rating: "",
       phone: buildingsMap[name][0].phone,
@@ -45,36 +88,51 @@ const Variables = () => {
     setTableData(rows);
   }, [buildingsMap]);
   //   console.log(JSON.stringify(tableData));
+  const convertFirestoreTimestamp = (timestamp) => {
+    if (timestamp) {
+      const date = new Date(
+        timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+      );
+      return date.toString();
+    }
+  };
 
   const columns = [
     {
-      field: "firstName",
-      headerName: "FIRST NAME",
+      field: "name",
+      headerName: "NAME OF BUILDING",
+      renderCell: (params) => {
+        const item = params.row;
+        const param = item.name.includes(" ")
+          ? item.name.split(" ").join("-").toLowerCase()
+          : item.name;
+        return (
+          <Link style={{ color: "white" }} to={`/home/variables/${param}`}>
+            {item.name}
+          </Link>
+        );
+      },
       flex: 1,
     },
     {
-      field: "lastName",
-      headerName: "LAST NAME",
+      field: "date",
+      headerName: "DATE",
       flex: 1,
     },
     {
-      field: "email",
-      headerName: "EMAIL",
+      field: "score",
+      headerName: "SCORE",
       flex: 0.5,
+    },
+    {
+      field: "rating",
+      headerName: "RATING",
+      renderCell: (params) => computeStarRating(params.row.score),
+      flex: 1,
     },
     {
       field: "phone",
-      headerName: "PHONE",
-      flex: 1,
-    },
-    {
-      field: "addressOne",
-      headerName: "ADDRESS TWO",
-      flex: 0.5,
-    },
-    {
-      field: "addressTwo",
-      headerName: "ADDRESS TWO",
+      headerName: "Phone",
       flex: 0.5,
     },
   ];
@@ -82,8 +140,8 @@ const Variables = () => {
   return (
     <Box m="20px">
       <Header
-        title="ASSESSORS"
-        subtitle="List of Assessors using the app."
+        title="VARIABLES"
+        subtitle="The table of data available."
       ></Header>
       <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
         <Box

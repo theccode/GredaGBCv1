@@ -1,10 +1,11 @@
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { Box, Typography } from "@mui/material";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 
-const PreviewModal = ({ open, setOpen, children }) => {
+const PreviewModal = ({ open, setOpen, details, children }) => {
   const handleClose = () => setOpen(false);
   return (
     <>
@@ -15,7 +16,17 @@ const PreviewModal = ({ open, setOpen, children }) => {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 600 }}>{children}</ModalContent>
+        <ModalContent sx={{ width: 600 }}>
+          {children}
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ textAlign: "center" }}
+          >
+            {details}
+          </Typography>
+        </ModalContent>
       </Modal>
     </>
   );

@@ -1,36 +1,13 @@
-import MapPicker from "react-google-map-picker";
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
-import { Button, TextField } from "@mui/material";
-const DefaultLocation = { lat: 5.5593, lng: 0.1974 };
-const DefaultZoom = 10;
-const MapModal = ({ open, setOpen, onSave, setLat, setLng }) => {
-  const handleOpen = () => setOpen(true);
+
+const SuccessModal = ({ open, setOpen, children }) => {
   const handleClose = () => setOpen(false);
-  const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
-
-  const [location, setLocation] = useState(defaultLocation);
-  const [zoom, setZoom] = useState(DefaultZoom);
-
-  function handleChangeLocation(lat, lng) {
-    setLat(lat);
-    setLng(lng);
-    setLocation({ lat: lat, lng: lng });
-  }
-
-  function handleChangeZoom(newZoom) {
-    setZoom(newZoom);
-  }
-
-  function handleResetLocation() {
-    setDefaultLocation({ ...DefaultLocation });
-    setZoom(DefaultZoom);
-  }
   return (
-    <div>
+    <>
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -38,39 +15,12 @@ const MapModal = ({ open, setOpen, onSave, setLat, setLng }) => {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 400 }}>
-          <Button variant="contained" onClick={handleResetLocation}>
-            Reset Location
-          </Button>
-          <label>Latitute:</label>
-          <input type="text" value={location.lat} disabled />
-          <label>Longitute:</label>
-          <input type="text" value={location.lng} disabled />
-          <label>Zoom:</label>
-          <input type="text" value={zoom} disabled />
-
-          <MapPicker
-            defaultLocation={defaultLocation}
-            zoom={zoom}
-            mapTypeId="roadmap"
-            style={{ height: "400px" }}
-            onChangeLocation={handleChangeLocation}
-            onChangeZoom={handleChangeZoom}
-            apiKey="AIzaSyBcToE_NsPbwhi45kvxkmtBZVVmiAtjPqc"
-          />
-          <Button
-            variant="contained"
-            sx={{ marginTop: "20px" }}
-            onClick={onSave}
-          >
-            Save
-          </Button>
-        </ModalContent>
+        <ModalContent sx={{ width: 600 }}>{children}</ModalContent>
       </Modal>
-    </div>
+    </>
   );
 };
-export default MapModal;
+export default SuccessModal;
 const Backdrop = forwardRef((props, ref) => {
   const { open, className, ...other } = props;
   return (

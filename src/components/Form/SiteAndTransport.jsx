@@ -5,10 +5,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
 import PreviewModal from "../Modal/PreviewModal";
-import { Divider } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { useJsApiLoader } from "@react-google-maps/api";
-
+import MapModal from "../Modal/Modal";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 export default function SiteAndTransport() {
   const [landscapingAndPlantersImageSrc, setLandscapingAndPlantersImageSrc] =
     useState(null);
@@ -17,6 +17,7 @@ export default function SiteAndTransport() {
     setFacilitiesForCyclingOrWalkingImgSrc,
   ] = useState(null);
   const [open, setOpen] = useState(false);
+  const [locationOpen, setLocationOpen] = useState(false);
   const [previewImgSrc, sestPreviewImgSrc] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -34,6 +35,7 @@ export default function SiteAndTransport() {
     facilitiesForCyclingOrWalking,
     landscapingAndPlantersUrl,
     facilitiesForCyclingOrWalkingUrl,
+    accessToPublicTransportCoordinates,
   } = formValues;
 
   const isError = useCallback(
@@ -46,6 +48,7 @@ export default function SiteAndTransport() {
         facilitiesForCyclingOrWalking,
         landscapingAndPlantersUrl,
         facilitiesForCyclingOrWalkingUrl,
+        accessToPublicTransportCoordinates,
       }).some(
         (name) =>
           (formValues[name].required && !formValues[name].value) ||
@@ -60,9 +63,10 @@ export default function SiteAndTransport() {
       facilitiesForCyclingOrWalking,
       landscapingAndPlantersUrl,
       facilitiesForCyclingOrWalkingUrl,
+      accessToPublicTransportCoordinates,
     ]
   );
-
+  //image
   useEffect(() => {
     if (landscapingAndPlantersUrl.value) {
       const reader = new FileReader();
@@ -86,11 +90,9 @@ export default function SiteAndTransport() {
   }, [landscapingAndPlantersUrl.value, facilitiesForCyclingOrWalkingUrl.value]);
   //Location
   useEffect(() => {
-    console.log(isLoaded);
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
       const latlng = new window.google.maps.LatLng(lat, lng);
-      console.log(latlng);
       geocoder.geocode({ location: latlng }, (results, status) => {
         if (status === "OK") {
           if (results[0]) {
@@ -111,13 +113,19 @@ export default function SiteAndTransport() {
     }
   }, [isLoaded, lat, lng]);
   const handleSave = () => {
-    console.log(lat);
-    console.log(lng);
-    console.log("city", city);
-    setOpen(false);
+    accessToPublicTransportCoordinates.value = city;
+    setLocationOpen(false);
   };
+
   return (
     <>
+      <MapModal
+        open={locationOpen}
+        setOpen={setLocationOpen}
+        onSave={handleSave}
+        setLat={setLat}
+        setLng={setLng}
+      />
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} alt="Image previewed." />
       </PreviewModal>
@@ -175,9 +183,7 @@ export default function SiteAndTransport() {
           />
           <Button variant="contained" component="label">
             <label for="cameraFileInput">
-              <span className="btn" style={{ background: "transparent" }}>
-                <AttachFileIcon /> (Attach a photo)
-              </span>
+              <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
                 id="cameraFileInput1"
@@ -190,29 +196,28 @@ export default function SiteAndTransport() {
                 helperText={landscapingAndPlantersUrl.error}
                 required={landscapingAndPlantersUrl.required}
               />
-              <Divider />
-              {landscapingAndPlantersUrl.value && (
-                <span className="valueInput">
-                  : ({landscapingAndPlantersUrl.value.name})
-                </span>
-              )}
-
-              <span>
-                {landscapingAndPlantersImageSrc && (
-                  <img
-                    onClick={() => {
-                      sestPreviewImgSrc(landscapingAndPlantersImageSrc);
-                      setOpen(true);
-                    }}
-                    src={landscapingAndPlantersImageSrc}
-                    width="50"
-                    height="50"
-                    alt=""
-                  />
-                )}
-              </span>
             </label>
           </Button>
+          {landscapingAndPlantersUrl.value && (
+            <span className="valueInput">
+              ({landscapingAndPlantersUrl.value.name})
+            </span>
+          )}
+          <span>
+            {landscapingAndPlantersImageSrc && (
+              <img
+                onClick={() => {
+                  sestPreviewImgSrc(landscapingAndPlantersImageSrc);
+                  setOpen(true);
+                }}
+                src={landscapingAndPlantersImageSrc}
+                width="50"
+                height="50"
+                alt=""
+              />
+            )}
+          </span>
+          <h5 style={{ color: "red" }}>{landscapingAndPlantersUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
           <TextField
@@ -230,6 +235,28 @@ export default function SiteAndTransport() {
             helperText={accessToPublicTransport.error}
             required={accessToPublicTransport.required}
           />
+          <Button
+            variant="contained"
+            component="label"
+            onClick={() => setLocationOpen(true)}
+          >
+            <label>
+              <AddLocationAltIcon />
+            </label>
+            <TextField
+              variant={variant}
+              margin={margin}
+              fullWidth
+              disabled
+              type="text"
+              name="accessToPublicTransportCoordinates"
+              value={accessToPublicTransportCoordinates.value}
+              onChange={handleChange}
+              error={!!accessToPublicTransportCoordinates.error}
+              helperText={accessToPublicTransportCoordinates.error}
+              required={accessToPublicTransportCoordinates.required}
+            />
+          </Button>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
           <TextField
@@ -250,13 +277,11 @@ export default function SiteAndTransport() {
           />
           <Button variant="contained" component="label">
             <label for="cameraFileInput">
-              <span className="btn" style={{ background: "transparent" }}>
-                <AttachFileIcon /> (Attach a photo)
-              </span>
+              <AddPhotoAlternateIcon />
               <input
                 id="cameraFileInput2"
                 type="file"
-                style={{ display: "none" }}
+                style={{ display: "none", backgroundColor: "white" }}
                 accept="image/*"
                 capture="environment"
                 name="facilitiesForCyclingOrWalkingUrl"
@@ -265,28 +290,30 @@ export default function SiteAndTransport() {
                 helperText={facilitiesForCyclingOrWalkingUrl.error}
                 required={facilitiesForCyclingOrWalkingUrl.required}
               />
-              <Divider />
-              {facilitiesForCyclingOrWalkingUrl.value && (
-                <span className="valueInput">
-                  : ({facilitiesForCyclingOrWalkingUrl.value.name})
-                </span>
-              )}
-              <span>
-                {facilitiesForCyclingOrWalkingImageSrc && (
-                  <img
-                    onClick={() => {
-                      sestPreviewImgSrc(facilitiesForCyclingOrWalkingImageSrc);
-                      setOpen(true);
-                    }}
-                    src={facilitiesForCyclingOrWalkingImageSrc}
-                    width="50"
-                    height="50"
-                    alt=""
-                  />
-                )}
-              </span>
             </label>
           </Button>
+          {facilitiesForCyclingOrWalkingUrl.value && (
+            <span className="valueInput">
+              : ({facilitiesForCyclingOrWalkingUrl.value.name})
+            </span>
+          )}
+          <span>
+            {facilitiesForCyclingOrWalkingImageSrc && (
+              <img
+                onClick={() => {
+                  sestPreviewImgSrc(facilitiesForCyclingOrWalkingImageSrc);
+                  setOpen(true);
+                }}
+                src={facilitiesForCyclingOrWalkingImageSrc}
+                width="50"
+                height="50"
+                alt=""
+              />
+            )}
+          </span>
+          <h5 style={{ color: "red" }}>
+            {facilitiesForCyclingOrWalkingUrl.error}
+          </h5>
         </Grid>
         {/* <Grid item xs={12}>
                     <FormControlLabel
