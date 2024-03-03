@@ -67,7 +67,6 @@ const Variables = () => {
       );
     }
   };
-  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
 
   //force update
@@ -84,7 +83,6 @@ const Variables = () => {
       rating: "",
       phone: buildingsMap[name][0].phone,
     }));
-    console.log(JSON.stringify(rows));
     setTableData(rows);
   }, [buildingsMap]);
   //   console.log(JSON.stringify(tableData));

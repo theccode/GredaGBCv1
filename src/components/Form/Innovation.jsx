@@ -55,9 +55,7 @@ export default function Innovation() {
       innovativeTechnologiesUrl,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //Innovative Technologies
     if (innovativeTechnologiesUrl.value) {

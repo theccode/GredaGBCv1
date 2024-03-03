@@ -92,9 +92,7 @@ export default function IndoorEnvironQuality() {
       roomsWithinTenMetersLightingSourceUrl,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //Optimum Interior Lighting
     if (optimumInteriorLightingUrl.value) {

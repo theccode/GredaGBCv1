@@ -1,22 +1,15 @@
-import {
-  Box,
-  Typography,
-  Container,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, useTheme, useMediaQuery } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { BuildingsContext } from "../../context/variable.context";
 import Header from "../Header/index";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import GradeIcon from "@mui/icons-material/Grade";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { UserDetailsContext } from "../../context/user-data.context";
 
 const Variables = () => {
   const [forceUpdateFlag, setForceUpdateFlag] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const { userDetails } = useContext(UserDetailsContext);
   // Function to force a re-render
   const forceUpdate = () => {
     setForceUpdateFlag((prevFlag) => !prevFlag);
@@ -27,55 +20,39 @@ const Variables = () => {
 
   const [tableData, setTableData] = useState([]);
 
-  //force update
   useEffect(() => {
-    forceUpdate();
-  }, []);
-  //   setRatingsAmount(buildingsMap["ratings"]);
-  useEffect(() => {
-    const rows = Object.keys(buildingsMap).map((name, idx) => ({
-      id: idx,
-      name: name,
-      date: null,
-      score: buildingsMap[name][0].ratings,
-      rating: "",
-      phone: buildingsMap[name][0].phone,
-    }));
-    console.log(JSON.stringify(rows));
-    setTableData(rows);
+    const rows =
+      userDetails &&
+      Object.keys(userDetails).map((user, idx) => {
+        return {
+          id: idx,
+          name: userDetails[user].displayName || "John Doe",
+          email: userDetails[user].email,
+          photo: userDetails[user].photoURL || "https://i.pravatar.cc/300",
+        };
+      });
+    rows && setTableData(rows);
   }, [buildingsMap]);
-  //   console.log(JSON.stringify(tableData));
 
   const columns = [
     {
-      field: "firstName",
-      headerName: "FIRST NAME",
-      flex: 1,
-    },
-    {
-      field: "lastName",
-      headerName: "LAST NAME",
+      field: "name",
+      headerName: "NAME",
       flex: 1,
     },
     {
       field: "email",
       headerName: "EMAIL",
-      flex: 0.5,
-    },
-    {
-      field: "phone",
-      headerName: "PHONE",
       flex: 1,
     },
+
     {
-      field: "addressOne",
-      headerName: "ADDRESS TWO",
-      flex: 0.5,
-    },
-    {
-      field: "addressTwo",
-      headerName: "ADDRESS TWO",
-      flex: 0.5,
+      field: "photo",
+      headerName: "PHOTO",
+      renderCell: (params) => (
+        <img src={params.row.photo} width={50} height={50} />
+      ),
+      flex: 1,
     },
   ];
 
@@ -114,7 +91,7 @@ const Variables = () => {
               color: `${colors.grey[100]} !important`,
             },
           }}
-          style={{ height: isMobile ? "100%" : 400, width: "100%" }}
+          style={{ height: isMobile ? "100%" : 700, width: "100%" }}
         >
           <DataGrid
             rows={tableData}

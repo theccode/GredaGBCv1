@@ -95,9 +95,7 @@ export default function MaterialAndResources() {
       materialsWithThirdpartyCertificationUrl,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //Environmental Product Declaration
     if (environmentalProductDeclarationUrl.value) {

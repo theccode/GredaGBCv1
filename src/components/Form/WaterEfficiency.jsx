@@ -107,9 +107,7 @@ export default function WaterEfficiency() {
       waterConservationAndManagementPlanUrl,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //water quality
     if (waterQualityUrl.value) {

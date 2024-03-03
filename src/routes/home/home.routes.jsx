@@ -1,5 +1,4 @@
 import Dashboard from "../../components/Dashboard";
-import { Box } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
@@ -14,6 +13,7 @@ import Assessor from "../../components/Assessor";
 
 export const Home = () => {
   const [theme, colorMode] = useMode();
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

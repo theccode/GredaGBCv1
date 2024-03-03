@@ -110,9 +110,7 @@ export default function EnergyEfficiency() {
       ecofriendlyRefrigerantsUrl,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //Energy Efficient Equipments
     if (energyEfficientEquipmentUrl.value) {

@@ -10,11 +10,9 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
-
   const handleAddNewBuildingInfo = (e) => {
     navigate("/home/NewBuildingInfo");
   };
-
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -79,6 +77,7 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            onClick={() => navigate("/home/new-assessor")}
           >
             <PersonAddIcon sx={{ mr: "10px" }} />
             Add New Assessor

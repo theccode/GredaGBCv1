@@ -412,7 +412,6 @@ export default function Confirm() {
       return form;
     });
     // Do whatever with the values
-    // console.log(form);
     const urls = await uploadMediaFiles(mediaFiles);
     setMediaUrls(urls);
 
@@ -781,7 +780,7 @@ export default function Confirm() {
         <small name="variable" style={{ color: `${colors.greenAccent[500]}` }}>
           *Waste And Pollution (WP)- <h2>{wasteAndPollutionTotalCredit.sum}</h2>
         </small>
-        {console.log(constructionWasteManagement.value)}
+
         <ListItem>
           <ListItemText
             primary="Construction Waste Management"

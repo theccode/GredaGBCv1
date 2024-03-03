@@ -9,22 +9,18 @@ import { useNavigate } from "react-router-dom";
 import { Footer } from "../../shared/footer/footer.shared";
 import { Box, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-
+import { errors } from "../../utils/error/error.util";
 export const Auth = () => {
-  const { userDetails, setUserDetails } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const defaultFormFields = {
     email: "",
     password: "",
   };
-  const errors = {
-    "auth/invalid-credential": "Invalid Credentials.",
-  };
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [loginError, setLoginError] = useState("");
-
+  const navigate = useNavigate();
   const { email, password } = formFields;
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormFields({ ...formFields, [name]: value });
@@ -32,25 +28,17 @@ export const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formFields);
 
     try {
-      const { user } = await signInAuthWithEmailAndPassword(email, password);
-      setUserDetails(user);
-      console.log(user);
-      if (user) {
-        console.log("user found!");
-        navigate("/home/dashboard");
-      }
+      await signInAuthWithEmailAndPassword(email, password);
+      navigate("/home/dashboard");
     } catch (error) {
-      console.log(error.code);
       if (error.code === "auth/invalid-credential") {
         setLoginError(errors[error.code]);
       }
     }
   };
 
-  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (

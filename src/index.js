@@ -8,21 +8,24 @@ import { UserProvider } from "./context/user.context";
 import { StepsProvider } from "./context/form.context";
 import { BuildingsProvider } from "./context/variable.context";
 import { DropdownProvider } from "./context/dropdown.context";
+import { UserDetailsProvider } from "./context/user-data.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
+    <UserProvider>
+      <BrowserRouter>
         <StepsProvider>
           <BuildingsProvider>
             <DropdownProvider>
-              <App />
+              <UserDetailsProvider>
+                <App />
+              </UserDetailsProvider>
             </DropdownProvider>
           </BuildingsProvider>
         </StepsProvider>
-      </UserProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </UserProvider>
   </React.StrictMode>
 );
 

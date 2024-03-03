@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -15,9 +13,13 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import GroupIcon from "@mui/icons-material/Group";
+import { signUserOut } from "../../utils/firebase/firebase.util";
+import { UserContext } from "../../context/user.context";
+import { useNavigate } from "react-router-dom";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
@@ -38,12 +40,15 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
-  const breakPoints = {
-    xs: 480, // Breakpoint for mobile devices
-    sm: 768, // Breakpoint for tablets
-    md: 992, // Breakpoint for small desktops
-    lg: 1200, // Breakpoint for large desktops
+  useContext(UserContext);
+  const navigate = useNavigate();
+  const signOut = async () => {
+    await signUserOut();
+    localStorage.removeItem("currentUser");
+    navigate("/");
   };
+
+  console.log(JSON.stringify(localStorage.getItem("currentUser")));
   return (
     <Box
       sx={{
@@ -64,7 +69,7 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed} breakPoints={breakPoints}>
+      <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -99,8 +104,16 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={Profile}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  src={
+                    localStorage.getItem("photo") === "null"
+                      ? "https://i.pravatar.cc/300"
+                      : localStorage.getItem("photo")
+                  }
+                  style={{
+                    cursor: "pointer",
+                    borderRadius: "50%",
+                    objectFit: "scale-down",
+                  }}
                 />
               </Box>
               <Box textAlign="center">
@@ -110,7 +123,9 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "5px 0 0 0" }}
                 >
-                  Assessor
+                  {localStorage.getItem("username") === "null"
+                    ? "John Doe"
+                    : localStorage.getItem("username")}
                 </Typography>
               </Box>
             </Box>
@@ -187,12 +202,12 @@ const Sidebar = () => {
             >
               Settings
             </Typography>
-            <Item
+            <MenuItem
               title="Signout"
-              to="/"
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
+              onClick={signOut}
             />
           </Box>
         </Menu>

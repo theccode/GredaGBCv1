@@ -68,9 +68,7 @@ export default function WasteAndPollution() {
       publicTransportAccessCoordinate,
     ]
   );
-  const onFileChange = (event) => {
-    console.log(event.target.files[0]);
-  };
+
   useEffect(() => {
     //Construction waste management
     if (constructionWasteManagementUrl.value) {
