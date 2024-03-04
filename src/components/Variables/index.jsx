@@ -144,7 +144,6 @@ const Variables = () => {
       <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
         <Box
           m="40px 0 0 0"
-          height="75vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
@@ -165,20 +164,25 @@ const Variables = () => {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
             },
-
             "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
               color: `${colors.grey[100]} !important`,
             },
+            overflowX: "auto",
           }}
-          style={{ height: isMobile ? "100%" : 400, width: "100%" }}
         >
           <DataGrid
             rows={tableData}
-            columns={columns}
+            columns={columns.map((column) => ({
+              ...column,
+              width: 200, // Set a fixed width for each column
+              headerAlign: "center",
+              align: "center",
+            }))}
             components={{ Toolbar: GridToolbar }}
+            autoHeight
+            autoPageSize
           />
         </Box>
-        {/* {getData()} */}
       </Container>
     </Box>
   );

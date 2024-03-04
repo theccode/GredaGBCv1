@@ -16,9 +16,14 @@ const Dashboard = () => {
   return (
     <Box m="20px">
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ flexDirection: { xs: "column", md: "row" } }}
+      >
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-        <Box>
+        <Box sx={{ marginTop: { xs: "20px", md: "0" }, marginBottom: "20px" }}>
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -36,7 +41,7 @@ const Dashboard = () => {
       </Box>
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
+        gridTemplateColumns={{ xs: "1fr", md: "repeat(12, 1fr)" }}
         gridAutoRows="140px"
         gap="20px"
       >
@@ -119,10 +124,10 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
-            disabled
+            onClick={() => navigate("/home/assessors")}
           >
             <AddBusinessIcon sx={{ mr: "10px" }} />
-            View Data/Variables
+            View Assessors
           </Button>
         </Box>
       </Box>

@@ -91,7 +91,7 @@ const Variables = () => {
               color: `${colors.grey[100]} !important`,
             },
           }}
-          style={{ height: isMobile ? "100%" : 700, width: "100%" }}
+          style={{ height: isMobile ? "100%" : "75vh", width: "100%" }}
         >
           <DataGrid
             rows={tableData}
@@ -99,7 +99,6 @@ const Variables = () => {
             components={{ Toolbar: GridToolbar }}
           />
         </Box>
-        {/* {getData()} */}
       </Container>
     </Box>
   );
