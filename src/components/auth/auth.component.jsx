@@ -8,7 +8,6 @@ import { UserContext } from "../../context/user.context";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "../../shared/footer/footer.shared";
 import { Box, useTheme } from "@mui/material";
-import { tokens } from "../../theme";
 import { errors } from "../../utils/error/error.util";
 export const Auth = () => {
   const { currentUser } = useContext(UserContext);
@@ -28,7 +27,6 @@ export const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       await signInAuthWithEmailAndPassword(email, password);
       navigate("/home/dashboard");
@@ -40,7 +38,6 @@ export const Auth = () => {
   };
 
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   return (
     <Box className="auth-container">
       <div className="form-container">
@@ -69,12 +66,6 @@ export const Auth = () => {
               onChange={handleChange}
             />
             <RiLockPasswordFill className="icon" />
-          </div>
-          <div className="remember-password">
-            <label>
-              <input type="checkbox" />
-              Remember me
-            </label>
           </div>
           <button className="btn-primary" type="submit">
             Login

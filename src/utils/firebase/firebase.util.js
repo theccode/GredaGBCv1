@@ -20,6 +20,7 @@ import {
   getDocs,
   query,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
@@ -90,7 +91,8 @@ export const createUserDocumentFromAuth = async (user, additionalInfo = {}) => {
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { email, displayName, phoneNumber, photoURL, isAdmin } = user;
+    const { email, displayName, phoneNumber, photoURL, isAdmin, isActive } =
+      user;
     const date = new Date();
     try {
       await setDoc(userDocRef, {
@@ -99,7 +101,8 @@ export const createUserDocumentFromAuth = async (user, additionalInfo = {}) => {
         phoneNumber,
         photoURL,
         date,
-        isAdmin: false,
+        isAdmin: isAdmin || false,
+        isActive: isActive || true,
         ...additionalInfo,
       });
     } catch (error) {
@@ -108,6 +111,47 @@ export const createUserDocumentFromAuth = async (user, additionalInfo = {}) => {
   }
   return userDocRef;
 };
+export const setUserRole = async (userId, newValue) => {
+  const userDocRef = doc(db, "users", userId); // Assuming "users" is your collection
+  return await updateDoc(userDocRef, { isAdmin: newValue });
+};
+export const setUserStatus = async (userId, newValue) => {
+  const userDocRef = doc(db, "users", userId); // Assuming "users" is your collection
+  return await updateDoc(userDocRef, { isActive: newValue });
+};
+export const checkUserStatus = async (userId) => {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    const dc = await getDoc(userDocRef);
+
+    if (dc.exists()) {
+      const userData = dc.data();
+      return userData.isActive;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("Error getting document:", error);
+    return false;
+  }
+};
+export const checkUserAdminStatus = async (userId) => {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    const dc = await getDoc(userDocRef);
+
+    if (dc.exists()) {
+      const userData = dc.data();
+      return userData.isAdmin;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("Error getting document:", error);
+    return false;
+  }
+};
+
 export const signUserOut = async () => await signOut(auth);
 export const signInAuthWithEmailAndPassword = async (email, password) => {
   if (!email || !password) {

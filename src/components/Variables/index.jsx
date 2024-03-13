@@ -1,10 +1,4 @@
-import {
-  Box,
-  Typography,
-  Container,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, useTheme, useMediaQuery } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { BuildingsContext } from "../../context/variable.context";
 import Header from "../Header/index";
@@ -12,15 +6,8 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import GradeIcon from "@mui/icons-material/Grade";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const Variables = () => {
-  const [forceUpdateFlag, setForceUpdateFlag] = useState(false);
-  const isMobile = useMediaQuery("(max-width: 600px)");
-  // Function to force a re-render
-  const forceUpdate = () => {
-    setForceUpdateFlag((prevFlag) => !prevFlag);
-  };
   const { buildingsMap } = useContext(BuildingsContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -69,10 +56,6 @@ const Variables = () => {
   };
   const [tableData, setTableData] = useState([]);
 
-  //force update
-  useEffect(() => {
-    forceUpdate();
-  }, []);
   //   setRatingsAmount(buildingsMap["ratings"]);
   useEffect(() => {
     const rows = Object.keys(buildingsMap).map((name, idx) => ({

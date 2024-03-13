@@ -8,7 +8,6 @@ import { Button, TextField } from "@mui/material";
 const DefaultLocation = { lat: 5.5593, lng: 0.1974 };
 const DefaultZoom = 10;
 const MapModal = ({ open, setOpen, onSave, setLat, setLng }) => {
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
 
@@ -38,7 +37,7 @@ const MapModal = ({ open, setOpen, onSave, setLat, setLng }) => {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 400 }}>
+        <ModalContent sx={{ width: 300 }}>
           <Button variant="contained" onClick={handleResetLocation}>
             Reset Location
           </Button>

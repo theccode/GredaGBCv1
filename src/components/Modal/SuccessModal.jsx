@@ -15,7 +15,7 @@ const SuccessModal = ({ open, setOpen, children }) => {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 600 }}>{children}</ModalContent>
+        <ModalContent sx={{ width: 500 }}>{children}</ModalContent>
       </Modal>
     </>
   );

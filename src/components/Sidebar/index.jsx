@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -8,7 +8,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import EmojiTransportationIcon from "@mui/icons-material/EmojiTransportation";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import Profile from "../../assets/profile.png";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -40,11 +39,22 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
-  useContext(UserContext);
   const navigate = useNavigate();
+  const [admin, setAdmin] = useState();
+
+  useEffect(() => {
+    setAdmin(localStorage.getItem("userIsAdmin"));
+  }, [admin]);
   const signOut = async () => {
     await signUserOut();
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("photo");
+    localStorage.removeItem("isActive");
+    localStorage.removeItem("userActive");
+    localStorage.removeItem("userIsAdmin");
     navigate("/");
   };
 
@@ -138,27 +148,32 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Users
-            </Typography>
-            <Item
-              title="Add Assessor"
-              to="/home/new-assessor"
-              icon={<PersonAddIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Assessors"
-              to="/home/assessors"
-              icon={<GroupIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {(admin === "true" || admin === null) && (
+              <>
+                <Typography
+                  variant="h6"
+                  color={colors.grey[300]}
+                  sx={{ m: "15px 0 5px 20px" }}
+                >
+                  Users
+                </Typography>
+                <Item
+                  title="Add Assessor"
+                  to="/home/new-assessor"
+                  icon={<PersonAddIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Assessors"
+                  to="/home/assessors"
+                  icon={<GroupIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </>
+            )}
+
             <Typography
               variant="h6"
               color={colors.grey[300]}

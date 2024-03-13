@@ -16,7 +16,7 @@ const PreviewModal = ({ open, setOpen, details, children }) => {
         onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
       >
-        <ModalContent sx={{ width: 600 }}>
+        <ModalContent sx={{ width: 400 }}>
           {children}
           <Typography
             id="modal-modal-title"
