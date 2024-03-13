@@ -1,8 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
 import { AppContext } from "../../context/form.context";
 import PreviewModal from "../Modal/PreviewModal";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -204,6 +206,18 @@ export default function EnergyEfficiency() {
   ]);
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">
+          Energy Efficient And Carbon Emission Mgt. (EEMR)
+        </Typography>
+      </Box>
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} />
       </PreviewModal>
@@ -216,41 +230,50 @@ export default function EnergyEfficiency() {
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="greenhouseGasEmissionReduction">
+            Greenhouse Gas Emission Reduction
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            label="Greenhouse Gas Emission Reduction"
             name="greenhouseGasEmissionReduction"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            placeholder="Greenhouse Gas Emission Reduction"
-            value={greenhouseGasEmissionReduction.value}
+            value={greenhouseGasEmissionReduction.value || ""}
             onChange={handleChange}
             error={!!greenhouseGasEmissionReduction.error}
             helperText={greenhouseGasEmissionReduction.error}
             required={greenhouseGasEmissionReduction.required}
-          />
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="energyEfficientEquipment">
+            Energy Efficient Equipment
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            placeholder="Energy Efficient Equipment"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Energy Efficient Equipment"
             name="energyEfficientEquipment"
-            defaultValue={energyEfficientEquipment.value}
+            value={energyEfficientEquipment.value || ""}
             onChange={handleChange}
             required={energyEfficientEquipment.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -264,8 +287,8 @@ export default function EnergyEfficiency() {
                 helperText={energyEfficientEquipmentUrl.error}
                 required={energyEfficientEquipmentUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {energyEfficientEquipmentUrl.value && (
             <span className="valueInput">
               ({energyEfficientEquipmentUrl.value.name})
@@ -288,23 +311,27 @@ export default function EnergyEfficiency() {
           <h5 style={{ color: "red" }}>{energyEfficientEquipmentUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="renewableEnergyUse">Renewable Energy Use</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            label="Renewable Energy Use"
             name="renewalEnergyUse"
-            placeholder="Renewable Energy Use"
-            value={renewalEnergyUse.value}
+            value={renewalEnergyUse.value || ""}
             onChange={handleChange}
             error={!!renewalEnergyUse.error}
             helperText={renewalEnergyUse.error}
             required={renewalEnergyUse.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -318,8 +345,8 @@ export default function EnergyEfficiency() {
                 helperText={renewalEnergyUseUrl.error}
                 required={renewalEnergyUseUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {renewalEnergyUseUrl.value && (
             <span className="valueInput">
               ({renewalEnergyUseUrl.value.name})
@@ -342,23 +369,29 @@ export default function EnergyEfficiency() {
           <h5 style={{ color: "red" }}>{renewalEnergyUseUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="energyMeteringAndMonitoring">
+            Energy Metering And Monitoring
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Energy Metering And Monitoring"
             name="energyMeteringAndMonitoring"
-            placeholder="Energy Metering And Monitoring"
-            value={energyMeteringAndMonitoring.value}
+            value={energyMeteringAndMonitoring.value || ""}
             onChange={handleChange}
             error={!!energyMeteringAndMonitoring.error}
             helperText={energyMeteringAndMonitoring.error}
             required={energyMeteringAndMonitoring.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -372,8 +405,8 @@ export default function EnergyEfficiency() {
                 helperText={energyMeteringAndMonitoringUrl.error}
                 required={energyMeteringAndMonitoringUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {energyMeteringAndMonitoringUrl.value && (
             <span className="valueInput">
               ({energyMeteringAndMonitoringUrl.value.name})
@@ -398,23 +431,29 @@ export default function EnergyEfficiency() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="lowAndZeroCarbonTechnologies">
+            Low And Zero Carbon Technologies
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            label="Low And Zero Carbon Technologies"
             name="lowAndZeroCarbonTechnologies"
-            placeholder="Low And Zero Carbon Technologies"
-            value={lowAndZeroCarbonTechnologies.value}
+            value={lowAndZeroCarbonTechnologies.value || ""}
             onChange={handleChange}
             error={!!lowAndZeroCarbonTechnologies.error}
             helperText={lowAndZeroCarbonTechnologies.error}
             required={lowAndZeroCarbonTechnologies.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -428,8 +467,8 @@ export default function EnergyEfficiency() {
                 helperText={lowAndZeroCarbonTechnologiesUrl.error}
                 required={lowAndZeroCarbonTechnologiesUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {lowAndZeroCarbonTechnologiesUrl.value && (
             <span className="valueInput">
               ({lowAndZeroCarbonTechnologiesUrl.value.name})
@@ -454,23 +493,29 @@ export default function EnergyEfficiency() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="energyEfficientColdStorage">
+            Energy Efficient Cold Storage
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Energy Efficient Cold Storage"
             name="energyEfficientColdStorage"
-            placeholder="Energy Efficient Cold Storage"
-            value={energyEfficientColdStorage.value}
+            value={energyEfficientColdStorage.value || ""}
             onChange={handleChange}
             error={!!energyEfficientColdStorage.error}
             helperText={energyEfficientColdStorage.error}
             required={energyEfficientColdStorage.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -484,8 +529,8 @@ export default function EnergyEfficiency() {
                 helperText={energyEfficientColdStorageUrl.error}
                 required={energyEfficientColdStorageUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {energyEfficientColdStorageUrl.value && (
             <span className="valueInput">
               ({energyEfficientColdStorageUrl.value.name})
@@ -508,23 +553,29 @@ export default function EnergyEfficiency() {
           <h5 style={{ color: "red" }}>{energyEfficientEquipmentUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="efficientVentilationAndACEquipment">
+            Efficient Ventilation And A/C Equipment
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Efficient Ventilation And A/C Equipment"
             name="efficientVentilationAndACEquipment"
-            placeholder="Efficient Ventilation And A/C Equipment"
-            value={efficientVentilationAndACEquipment.value}
+            value={efficientVentilationAndACEquipment.value || ""}
             onChange={handleChange}
             error={!!efficientVentilationAndACEquipment.error}
             helperText={efficientVentilationAndACEquipment.error}
             required={efficientVentilationAndACEquipment.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -538,8 +589,8 @@ export default function EnergyEfficiency() {
                 helperText={efficientVentilationAndACEquipmentUrl.error}
                 required={efficientVentilationAndACEquipmentUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {efficientVentilationAndACEquipmentUrl.value && (
             <span className="valueInput">
               ({efficientVentilationAndACEquipmentUrl.value.name})
@@ -564,23 +615,29 @@ export default function EnergyEfficiency() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="alternativePassiveDesign">
+            Alternative Passive Design
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            label="Alternative Passive Design"
             name="alternativePassiveDesign"
-            placeholder="Alternative Passive Design"
-            value={alternativePassiveDesign.value}
+            value={alternativePassiveDesign.value || ""}
             onChange={handleChange}
             error={!!alternativePassiveDesign.error}
             helperText={alternativePassiveDesign.error}
             required={alternativePassiveDesign.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="alternativePassiveDesignUrl">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="alternativePassiveDesignUrl">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -594,8 +651,8 @@ export default function EnergyEfficiency() {
                 helperText={alternativePassiveDesignUrl.error}
                 required={alternativePassiveDesignUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {alternativePassiveDesignUrl.value && (
             <span className="valueInput">
               ({alternativePassiveDesignUrl.value.name})
@@ -623,40 +680,52 @@ export default function EnergyEfficiency() {
           <h5 style={{ color: "red" }}>{alternativePassiveDesignUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="emboddiedEnergyInBuildingElement">
+            Embodied Energy In Building Elements
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            label="Emboddied Energy In Building Elements"
             name="emboddiedEnergyInBuildingElement"
-            placeholder="Emboddied Energy In Building Elements"
-            value={emboddiedEnergyInBuildingElement.value}
+            value={emboddiedEnergyInBuildingElement.value || ""}
             onChange={handleChange}
             error={!!emboddiedEnergyInBuildingElement.error}
             helperText={emboddiedEnergyInBuildingElement.error}
             required={emboddiedEnergyInBuildingElement.required}
-          />
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="ecofriendlyRefrigerants">
+            Eco-friendly Refrigerants.
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Eco-friendly Refrigerants"
             name="ecofriendlyRefrigerants"
-            placeholder="Eco-friendly Refrigerants"
-            value={ecofriendlyRefrigerants.value}
+            value={ecofriendlyRefrigerants.value || ""}
             onChange={handleChange}
             error={!!ecofriendlyRefrigerants.error}
             helperText={ecofriendlyRefrigerants.error}
             required={ecofriendlyRefrigerants.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="ecofriendlyRefrigerantsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="ecofriendlyRefrigerantsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -670,8 +739,8 @@ export default function EnergyEfficiency() {
                 helperText={ecofriendlyRefrigerantsUrl.error}
                 required={ecofriendlyRefrigerantsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {ecofriendlyRefrigerantsUrl.value && (
             <span className="valueInput">
               ({ecofriendlyRefrigerantsUrl.value.name})
@@ -693,27 +762,15 @@ export default function EnergyEfficiency() {
           </span>
           <h5 style={{ color: "red" }}>{ecofriendlyRefrigerantsUrl.error}</h5>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          color="secondary"
+          variant="contained"
+        >
           Back
         </Button>
         <Button

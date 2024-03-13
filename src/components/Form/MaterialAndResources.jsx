@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -178,46 +180,65 @@ export default function MaterialAndResources() {
   ]);
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Materials & Resources (MR) </Typography>
+      </Box>
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} />
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="lifeCycleImpactReduction">
+            Life Cycle Impact Reduction
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            label="Life Cycle Impact Reduction"
             name="lifeCycleImpactReduction"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            placeholder="Life Cycle Impact Reduction"
-            value={lifeCycleImpactReduction.value}
+            value={lifeCycleImpactReduction.value || ""}
             onChange={handleChange}
             error={!!lifeCycleImpactReduction.error}
             helperText={lifeCycleImpactReduction.error}
             required={lifeCycleImpactReduction.required}
-          />
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="environmentalProductDeclaration">
+            Environmental Product Declaration
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            placeholder="Environmental Product Declaration"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Environmental Product Declaration"
             name="environmentalProductDeclaration"
-            defaultValue={environmentalProductDeclaration.value}
+            value={environmentalProductDeclaration.value || ""}
             onChange={handleChange}
             required={environmentalProductDeclaration.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="environmentalProductDeclarationUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="environmentalProductDeclarationUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -231,8 +252,8 @@ export default function MaterialAndResources() {
                 helperText={environmentalProductDeclarationUrl.error}
                 required={environmentalProductDeclarationUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {environmentalProductDeclarationUrl.value && (
             <span className="valueInput">
               ({environmentalProductDeclarationUrl.value.name})
@@ -257,40 +278,52 @@ export default function MaterialAndResources() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="responsibleSourcingOfRawMaterials">
+            Responsible Sourcing of Raw Materials.
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Resposible Sourcing of Raw Materials"
             name="responsibleSourcingOfRawMaterials"
-            placeholder="Resposible Sourcing of Raw Materials"
-            value={responsibleSourcingOfRawMaterials.value}
+            value={responsibleSourcingOfRawMaterials.value || ""}
             onChange={handleChange}
             error={!!responsibleSourcingOfRawMaterials.error}
             helperText={responsibleSourcingOfRawMaterials.error}
             required={responsibleSourcingOfRawMaterials.required}
-          />
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="sustainableGreenProducts">
+            Sustainable/Green Products
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Sustainable/Green Products"
             name="sustainableGreenProducts"
-            placeholder="Sustainable/Green Products"
-            value={sustainableGreenProducts.value}
+            value={sustainableGreenProducts.value || ""}
             onChange={handleChange}
             error={!!sustainableGreenProducts.error}
             helperText={sustainableGreenProducts.error}
             required={sustainableGreenProducts.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="sustainableGreenProductsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="sustainableGreenProductsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -304,8 +337,8 @@ export default function MaterialAndResources() {
                 helperText={sustainableGreenProductsUrl.error}
                 required={sustainableGreenProductsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {sustainableGreenProductsUrl.value && (
             <span className="valueInput">
               ({sustainableGreenProductsUrl.value.name})
@@ -328,23 +361,29 @@ export default function MaterialAndResources() {
           <h5 style={{ color: "red" }}>{sustainableGreenProductsUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="materialsWithRecycledContent">
+            Materials With Recycled Content
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Materials With Recycled Content"
             name="materialsWithRecycledContent"
-            placeholder="Materials With Recycled Content"
-            value={materialsWithRecycledContent.value}
+            value={materialsWithRecycledContent.value || ""}
             onChange={handleChange}
             error={!!materialsWithRecycledContent.error}
             helperText={materialsWithRecycledContent.error}
             required={materialsWithRecycledContent.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="materialsWithRecycledContentUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="materialsWithRecycledContentUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -358,8 +397,8 @@ export default function MaterialAndResources() {
                 helperText={materialsWithRecycledContentUrl.error}
                 required={materialsWithRecycledContentUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {materialsWithRecycledContentUrl.value && (
             <span className="valueInput">
               ({materialsWithRecycledContentUrl.value.name})
@@ -384,23 +423,29 @@ export default function MaterialAndResources() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="materialsWithLowEmbodiedEnergy">
+            Materials With Low Embodied Energy
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Materials With Low Emboddied Energy"
             name="materialsWithLowEmbodiedEnergy"
-            placeholder="Materials With Low Emboddied Energy"
-            value={materialsWithLowEmbodiedEnergy.value}
+            value={materialsWithLowEmbodiedEnergy.value || ""}
             onChange={handleChange}
             error={!!materialsWithLowEmbodiedEnergy.error}
             helperText={materialsWithLowEmbodiedEnergy.error}
             required={materialsWithLowEmbodiedEnergy.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="materialsWithLowEmbodiedEnergyUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="materialsWithLowEmbodiedEnergyUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -414,8 +459,8 @@ export default function MaterialAndResources() {
                 helperText={materialsWithLowEmbodiedEnergyUrl.error}
                 required={materialsWithLowEmbodiedEnergyUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {materialsWithLowEmbodiedEnergyUrl.value && (
             <span className="valueInput">
               ({materialsWithLowEmbodiedEnergyUrl.value.name})
@@ -440,23 +485,27 @@ export default function MaterialAndResources() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="reusedMaterials">Reused Materials</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Reused Materials"
             name="reusedMaterials"
-            placeholder="Reused Materials"
-            value={reusedMaterials.value}
+            value={reusedMaterials.value || ""}
             onChange={handleChange}
             error={!!reusedMaterials.error}
             helperText={reusedMaterials.error}
             required={reusedMaterials.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="reusedMaterialsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="reusedMaterialsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -470,8 +519,8 @@ export default function MaterialAndResources() {
                 helperText={reusedMaterialsUrl.error}
                 required={reusedMaterialsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {reusedMaterialsUrl.value && (
             <span className="valueInput">
               ({reusedMaterialsUrl.value.name})
@@ -494,23 +543,29 @@ export default function MaterialAndResources() {
           <h5 style={{ color: "red" }}>{reusedMaterialsUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="locallySourceMaterials">
+            Locally Sourced Materials
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Locally Sourced Materials"
             name="locallySourcedMaterials"
-            placeholder="Locally Sourced Materials"
-            value={locallySourcedMaterials.value}
+            value={locallySourcedMaterials.value || ""}
             onChange={handleChange}
             error={!!locallySourcedMaterials.error}
             helperText={locallySourcedMaterials.error}
             required={locallySourcedMaterials.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="locallySourcedMaterialsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="locallySourcedMaterialsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -524,8 +579,8 @@ export default function MaterialAndResources() {
                 helperText={locallySourcedMaterialsUrl.error}
                 required={locallySourcedMaterialsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {locallySourcedMaterialsUrl.value && (
             <span className="valueInput">
               ({locallySourcedMaterialsUrl.value.name})
@@ -548,23 +603,29 @@ export default function MaterialAndResources() {
           <h5 style={{ color: "red" }}>{locallySourcedMaterialsUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="materialsWithThirdpartyCertification">
+            Materials With Third-Party Certification/Verifications
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Materials With Third-Party Certification/Verification"
             name="materialsWithThirdpartyCertification"
-            placeholder="Materials With Third-Party Certification/Verification"
-            value={materialsWithThirdpartyCertification.value}
+            value={materialsWithThirdpartyCertification.value || ""}
             onChange={handleChange}
             error={!!materialsWithThirdpartyCertification.error}
             helperText={materialsWithThirdpartyCertification.error}
             required={materialsWithThirdpartyCertification.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="materialsWithThirdpartyCertificationUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="materialsWithThirdpartyCertificationUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -578,8 +639,8 @@ export default function MaterialAndResources() {
                 helperText={materialsWithThirdpartyCertificationUrl.error}
                 required={materialsWithThirdpartyCertificationUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {materialsWithThirdpartyCertificationUrl.value && (
             <span className="valueInput">
               ({materialsWithThirdpartyCertificationUrl.value.name})
@@ -603,27 +664,15 @@ export default function MaterialAndResources() {
             {materialsWithThirdpartyCertificationUrl.error}
           </h5>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button

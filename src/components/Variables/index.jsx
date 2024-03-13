@@ -85,7 +85,6 @@ const Variables = () => {
     }));
     setTableData(rows);
   }, [buildingsMap]);
-  //   console.log(JSON.stringify(tableData));
   const convertFirestoreTimestamp = (timestamp) => {
     if (timestamp) {
       const date = new Date(
@@ -102,12 +101,14 @@ const Variables = () => {
       renderCell: (params) => {
         const item = params.row;
         const param = item.name.includes(" ")
-          ? item.name.split(" ").join("-").toLowerCase()
+          ? item.name.split(" ").join("-")
           : item.name;
         return (
-          <Link style={{ color: "white" }} to={`/home/variables/${param}`}>
-            {item.name}
-          </Link>
+          item && (
+            <Link style={{ color: "white" }} to={`/home/variables/${param}`}>
+              {item.name}
+            </Link>
+          )
         );
       },
       flex: 1,
@@ -157,9 +158,9 @@ const Variables = () => {
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: colors.blueAccent[700],
             },
-            "& . MuiDataGrid-virtualScroller": {
+            "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
-            },
+            }, // Removed extra space here
             "& .MuiDataGrid-footerContainer": {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
@@ -180,7 +181,7 @@ const Variables = () => {
             }))}
             components={{ Toolbar: GridToolbar }}
             autoHeight
-            autoPageSize
+            // autoPageSize
           />
         </Box>
       </Container>

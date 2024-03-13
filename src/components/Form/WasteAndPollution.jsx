@@ -1,6 +1,9 @@
 import React, { useCallback, useContext, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
@@ -95,7 +98,6 @@ export default function WasteAndPollution() {
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
       const latlng = new window.google.maps.LatLng(lat, lng);
-      console.log(latlng);
       geocoder.geocode({ location: latlng }, (results, status) => {
         if (status === "OK") {
           if (results[0]) {
@@ -121,6 +123,16 @@ export default function WasteAndPollution() {
   };
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Waste & Pollution (WP)</Typography>
+      </Box>
       <MapModal
         open={locationOpen}
         setOpen={setLocationOpen}
@@ -133,23 +145,29 @@ export default function WasteAndPollution() {
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="constructionWasteManagement">
+            Construction Waste Management
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            label="Construction Waste Management"
             name="constructionWasteManagement"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            placeholder="Construction Waste Management"
-            value={constructionWasteManagement.value}
+            value={constructionWasteManagement.value || ""}
             onChange={handleChange}
             error={!!constructionWasteManagement.error}
             helperText={constructionWasteManagement.error}
             required={constructionWasteManagement.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="constructionWasteManagementUrl">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="constructionWasteManagementUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -163,8 +181,8 @@ export default function WasteAndPollution() {
                 helperText={constructionWasteManagementUrl.error}
                 required={constructionWasteManagementUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {constructionWasteManagementUrl.value && (
             <span className="valueInput">
               ({constructionWasteManagementUrl.value.name})
@@ -189,80 +207,91 @@ export default function WasteAndPollution() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="operationalWaste">Operational Waste</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            placeholder="Operational Waste"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Operational Waste"
             name="operationalWaste"
-            defaultValue={operationalWaste.value}
+            value={operationalWaste.value || ""}
             onChange={handleChange}
             required={operationalWaste.required}
-          />
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="publicTransportAccess">Public Transport Access</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Public Transport Access"
             name="publicTransportAccess"
-            placeholder="Public Transport Access"
-            value={publicTransportAccess.value}
+            value={publicTransportAccess.value || ""}
             onChange={handleChange}
             error={!!publicTransportAccess.error}
             helperText={publicTransportAccess.error}
             required={publicTransportAccess.required}
-          />
-          <Button
-            variant="contained"
-            component="label"
-            onClick={() => setLocationOpen(true)}
           >
-            <label>
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label>
+            <Button
+              variant="contained"
+              component="label"
+              onClick={() => setLocationOpen(true)}
+            >
               <AddLocationAltIcon />
-            </label>
-            <TextField
-              variant={variant}
-              margin={margin}
-              fullWidth
-              disabled
-              type="text"
-              name="publicTransportAccessCoordinate"
-              value={publicTransportAccessCoordinate.value}
-              onChange={handleChange}
-              error={!!publicTransportAccessCoordinate.error}
-              helperText={publicTransportAccessCoordinate.error}
-              required={publicTransportAccessCoordinate.required}
-            />
-          </Button>
+              <TextField
+                variant={variant}
+                margin={margin}
+                fullWidth
+                disabled
+                type="text"
+                name="publicTransportAccessCoordinate"
+                value={publicTransportAccessCoordinate.value}
+                onChange={handleChange}
+                error={!!publicTransportAccessCoordinate.error}
+                helperText={publicTransportAccessCoordinate.error}
+                required={publicTransportAccessCoordinate.required}
+              />
+            </Button>
+          </label>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="wasteDisposalFacilities">
+            Waste Disposal Facilities
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            label="Waste Disposal Facilities"
             name="wasteDisposalFacilities"
-            placeholder="Waste Disposal Facilities"
-            value={wasteDisposalFacilities.value}
+            value={wasteDisposalFacilities.value || ""}
             onChange={handleChange}
             error={!!wasteDisposalFacilities.error}
             helperText={wasteDisposalFacilities.error}
             required={wasteDisposalFacilities.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="wasteDisposalFacilitiesUrl">
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="wasteDisposalFacilitiesUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -276,8 +305,8 @@ export default function WasteAndPollution() {
                 helperText={wasteDisposalFacilitiesUrl.error}
                 required={wasteDisposalFacilitiesUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {wasteDisposalFacilitiesUrl.value && (
             <span className="valueInput">
               ({wasteDisposalFacilitiesUrl.value.name})
@@ -300,43 +329,35 @@ export default function WasteAndPollution() {
           <h5 style={{ color: "red" }}>{wasteDisposalFacilitiesUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="lowEmittingVehicles">Low Emitting Vehicles</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Low Emitting Vehicles"
             name="lowEmittingVehicles"
-            placeholder="Low Emitting Vehicles"
-            value={lowEmittingVehicles.value}
+            value={lowEmittingVehicles.value || ""}
             onChange={handleChange}
             error={!!lowEmittingVehicles.error}
             helperText={lowEmittingVehicles.error}
             required={lowEmittingVehicles.required}
-          />
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button

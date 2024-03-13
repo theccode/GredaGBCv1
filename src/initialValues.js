@@ -4,7 +4,7 @@ export const initialValues = {
     value: "",
     error: "",
     required: true,
-    validate: "text",
+    validate: "alphaNumeric",
     minLength: 2,
     maxLength: 100,
     helperText: "Custom error message",

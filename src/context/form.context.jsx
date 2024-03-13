@@ -84,13 +84,11 @@ export function StepsProvider({ children }) {
     const { type, name, value, files } = event.target;
 
     let fieldValue = value;
-    console.log(fieldValue);
     if (type === "file") {
       fieldValue = files[0];
     } else {
       fieldValue = type === "checkbox" ? checked : value;
     }
-    console.log(fieldValue);
     dispatch({ type: "form-value", name, fieldValue });
 
     const fieldName = initialValues[name];

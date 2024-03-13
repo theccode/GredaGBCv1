@@ -15,7 +15,7 @@ import PreviewModal from "../Modal/PreviewModal";
 const Variable = () => {
   const [buildingName, setBuildingName] = useState("");
   const { category } = useParams();
-  const name = category?.split("-").join(" ").toLowerCase();
+  const name = category?.split("-").join(" ");
   const { buildingsMap } = useContext(BuildingsContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -33,12 +33,7 @@ const Variable = () => {
   const [previewImgSrc, setPreviewImgSrc] = useState("");
   const [previewVideoSrc, setPreviewVideoSrc] = useState("");
   const [openVideo, setOpenVideo] = useState(false);
-  function capitalizeWords(str) {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
+
   //site and transport columns
   const siteAndTransportColumns = [
     {
@@ -314,8 +309,8 @@ const Variable = () => {
   useEffect(() => {
     setBuildingName(name);
     const data =
-      buildingsMap[capitalizeWords(name)] &&
-      buildingsMap[capitalizeWords(name)].map((item) => {
+      buildingsMap[name] &&
+      buildingsMap[name].map((item) => {
         return item.data;
       });
     setIndicatorData(data);
@@ -324,8 +319,8 @@ const Variable = () => {
   useEffect(() => {
     setBuildingName(name);
     const data =
-      buildingsMap[capitalizeWords(name)] &&
-      buildingsMap[capitalizeWords(name)].map((item) => {
+      buildingsMap[name] &&
+      buildingsMap[name].map((item) => {
         return item.media;
       });
     // setTableData(rows);
@@ -352,7 +347,8 @@ const Variable = () => {
         {
           id: `getRowId`,
           waterQuality: indicatorData[2]["water-quality"],
-          highEfficiencyWaterFixtures: indicatorData[2]["daylighting"],
+          highEfficiencyWaterFixtures:
+            indicatorData[2]["high-efficiency-water-fixtures"],
           rainWaterManagement: indicatorData[2]["rain-water-management"],
           outdoorWaterUseReduction:
             indicatorData[2]["outdoor-water-use-reduction"],

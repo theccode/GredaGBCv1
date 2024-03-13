@@ -415,7 +415,7 @@ export default function Confirm() {
     const urls = await uploadMediaFiles(mediaFiles);
     setMediaUrls(urls);
 
-    if (gredaData) {
+    if (gredaData && buildingName.value) {
       const res = await saveDataToFirestore(buildingName.value, gredaData);
       // Show last component or success message
       if (res) {
@@ -844,8 +844,10 @@ export default function Confirm() {
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
         <Button
-          sx={{ mr: 1, backgroundColor: `${colors.primary[100]} !important` }}
+          sx={{ mr: 1 }}
           onClick={handleBack}
+          color="secondary"
+          variant="contained"
         >
           Back
         </Button>

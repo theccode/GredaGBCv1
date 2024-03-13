@@ -1,6 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
@@ -94,6 +97,16 @@ export default function Innovation() {
   ]);
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Innovation (IN)</Typography>
+      </Box>
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} />
       </PreviewModal>
@@ -106,23 +119,29 @@ export default function Innovation() {
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="innovativeTechnologies">
+            Innovative Technologies
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            label="Innovative Technologies"
             name="innovativeTechnologies"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            placeholder="Innovative Technologies"
-            value={innovativeTechnologies.value}
+            value={innovativeTechnologies.value || ""}
             onChange={handleChange}
             error={!!innovativeTechnologies.error}
             helperText={innovativeTechnologies.error}
             required={innovativeTechnologies.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="innovativeTechnologiesUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="innovativeTechnologiesUrl">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -136,8 +155,8 @@ export default function Innovation() {
                 helperText={innovativeTechnologiesUrl.error}
                 required={innovativeTechnologiesUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {innovativeTechnologiesUrl.value && (
             <span className="valueInput">
               ({innovativeTechnologiesUrl.value.name})
@@ -162,24 +181,27 @@ export default function Innovation() {
           <h5 style={{ color: "red" }}>{innovativeTechnologiesUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="innovativeMaterialsAndProducts">
+            Innovative Materials & Products
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            placeholder="Innovative Materials And Products"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Innovative Materials And Products"
             name="innovativeMaterialsAndProducts"
-            defaultValue={innovativeMaterialsAndProducts.value}
+            value={innovativeMaterialsAndProducts.value || ""}
             onChange={handleChange}
             required={innovativeMaterialsAndProducts.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="innovativeMaterialsAndProductsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="innovativeMaterialsAndProductsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -193,8 +215,8 @@ export default function Innovation() {
                 helperText={innovativeMaterialsAndProductsUrl.error}
                 required={innovativeMaterialsAndProductsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {innovativeMaterialsAndProductsUrl.value && (
             <span className="valueInput">
               ({innovativeMaterialsAndProductsUrl.value.name})
@@ -219,23 +241,27 @@ export default function Innovation() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="innovativeDesign">Innovative Design</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            label="Innovative Design"
             name="innovativeDesign"
-            placeholder="Innovative Design"
             value={innovativeDesign.value}
             onChange={handleChange}
             error={!!innovativeDesign.error}
             helperText={innovativeDesign.error}
             required={innovativeDesign.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="innovativeDesignUrl">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="innovativeDesignUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -249,8 +275,8 @@ export default function Innovation() {
                 helperText={innovativeDesignUrl.error}
                 required={innovativeDesignUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {innovativeDesignUrl.value && (
             <span className="valueInput">
               ({innovativeDesignUrl.value.name})
@@ -275,7 +301,12 @@ export default function Innovation() {
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button

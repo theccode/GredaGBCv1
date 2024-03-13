@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
 import PreviewModal from "../Modal/PreviewModal";
@@ -210,8 +212,19 @@ export default function WaterEfficiency() {
     waterEfficientIrrigationUrl.value,
     waterConservationAndManagementPlanUrl.value,
   ]);
+
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Water Efficiency (WE)</Typography>
+      </Box>
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} />
       </PreviewModal>
@@ -224,24 +237,26 @@ export default function WaterEfficiency() {
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="waterQuality">Water Quality</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 1 } }}
-            placeholder="Water Quality"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Water Quality"
             name="waterQuality"
-            defaultValue={waterQuality.value}
+            value={waterQuality.value || ""}
             onChange={handleChange}
+            error={!!waterQuality.error}
             required={waterQuality.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(2).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -255,8 +270,8 @@ export default function WaterEfficiency() {
                 helperText={waterQualityUrl.error}
                 required={waterQualityUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {waterQualityUrl.value && (
             <span className="valueInput">({waterQualityUrl.value.name})</span>
           )}
@@ -277,23 +292,29 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{waterQualityUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="highEfficiencyWaterFixtures">
+            High Efficiency Water Fixtures
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            label="High Efficiency Water Fixtures"
             name="highEfficiencyWaterFixtures"
-            placeholder="High Efficiency Water Fixtures"
-            value={highEfficiencyWaterFixtures.value}
+            value={highEfficiencyWaterFixtures.value || ""}
             onChange={handleChange}
             error={!!highEfficiencyWaterFixtures.error}
             helperText={highEfficiencyWaterFixtures.error}
             required={highEfficiencyWaterFixtures.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput2">
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput2">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -307,8 +328,8 @@ export default function WaterEfficiency() {
                 helperText={highEfficiencyWaterFixturesUrl.error}
                 required={highEfficiencyWaterFixturesUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {highEfficiencyWaterFixturesUrl.value && (
             <span className="valueInput">
               ({highEfficiencyWaterFixturesUrl.value.name})
@@ -338,23 +359,27 @@ export default function WaterEfficiency() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="rainWaterManagement">Rain Water Management</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Rain Water Management"
             name="rainWaterManagement"
-            placeholder="Rain Water Management"
-            value={rainWaterManagement.value}
+            value={rainWaterManagement.value || ""}
             onChange={handleChange}
             error={!!rainWaterManagement.error}
             helperText={rainWaterManagement.error}
             required={rainWaterManagement.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
 
               <input
@@ -369,8 +394,8 @@ export default function WaterEfficiency() {
                 helperText={rainWaterManagementUrl.error}
                 required={rainWaterManagementUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {rainWaterManagementUrl.value && (
             <span className="valueInput">
               ({rainWaterManagementUrl.value.name})
@@ -393,23 +418,29 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{rainWaterManagementUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="outdoorWaterUseReduction">
+            Outdoor Water Use Reduction
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Outdoor Water Use Reduction"
             name="outdoorWaterUseReduction"
-            placeholder="Outdoor Water Use Reduction"
-            value={outdoorWaterUseReduction.value}
+            value={outdoorWaterUseReduction.value || ""}
             onChange={handleChange}
             error={!!outdoorWaterUseReduction.error}
             helperText={outdoorWaterUseReduction.error}
             required={outdoorWaterUseReduction.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
 
               <input
@@ -424,8 +455,8 @@ export default function WaterEfficiency() {
                 helperText={outdoorWaterUseReductionUrl.error}
                 required={outdoorWaterUseReductionUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {outdoorWaterUseReductionUrl.value && (
             <span className="valueInput">
               ({outdoorWaterUseReductionUrl.value.name})
@@ -448,23 +479,29 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{outdoorWaterUseReductionUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="surfaceWaterRunOff">
+            Surface Water Run Off/Stormwater Mgt.
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 1 } }}
-            label="Surface Water Run Off/Stormwater mgt."
             name="surfaceWaterRunOff"
-            placeholder="Surface Water Run Off/Stormwater mgt."
-            value={surfaceWaterRunOff.value}
+            value={surfaceWaterRunOff.value || ""}
             onChange={handleChange}
             error={!!surfaceWaterRunOff.error}
             helperText={surfaceWaterRunOff.error}
             required={surfaceWaterRunOff.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(2).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -478,8 +515,8 @@ export default function WaterEfficiency() {
                 helperText={surfaceWaterRunOffUrl.error}
                 required={surfaceWaterRunOffUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {surfaceWaterRunOffUrl.value && (
             <span className="valueInput">
               ({surfaceWaterRunOffUrl.value.name})
@@ -504,23 +541,27 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{surfaceWaterRunOffUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="waterRecycling">Water Recycling</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Water Recycle"
             name="waterRecycling"
-            placeholder="Water Recycle"
-            value={waterRecycling.value}
+            value={waterRecycling.value || ""}
             onChange={handleChange}
             error={!!waterRecycling.error}
             helperText={waterRecycling.error}
             required={waterRecycling.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -534,8 +575,8 @@ export default function WaterEfficiency() {
                 helperText={waterRecyclingUrl.error}
                 required={waterRecyclingUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {waterRecyclingUrl.value && (
             <span className="valueInput">({waterRecyclingUrl.value.name})</span>
           )}
@@ -558,23 +599,29 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{waterRecyclingUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="meteringAndLeakageDetectionSystem">
+            Metering & Leakage Detection System
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Metering and Leakage Detection System"
             name="meteringAndLeakageDetectionSystem"
-            placeholder="Metering and Leakage Detection System"
-            value={meteringAndLeakageDetectionSystem.value}
+            value={meteringAndLeakageDetectionSystem.value || ""}
             onChange={handleChange}
             error={!!meteringAndLeakageDetectionSystem.error}
             helperText={meteringAndLeakageDetectionSystem.error}
             required={meteringAndLeakageDetectionSystem.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -588,8 +635,8 @@ export default function WaterEfficiency() {
                 helperText={meteringAndLeakageDetectionSystemUrl.error}
                 required={meteringAndLeakageDetectionSystemUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {meteringAndLeakageDetectionSystemUrl.value && (
             <span className="valueInput">
               ({meteringAndLeakageDetectionSystemUrl.value.name})
@@ -614,23 +661,29 @@ export default function WaterEfficiency() {
           </h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="waterEfficientIrrigation">
+            Water Efficient Irrigation
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Water Efficient Irrigation"
             name="waterEfficientIrrigation"
-            placeholder="Water Efficient Irrigation"
-            value={waterEfficientIrrigation.value}
+            value={waterEfficientIrrigation.value || ""}
             onChange={handleChange}
             error={!!waterEfficientIrrigation.error}
             helperText={waterEfficientIrrigation.error}
             required={waterEfficientIrrigation.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <VideoCallIcon />
               <input
                 style={{ display: "none" }}
@@ -644,8 +697,8 @@ export default function WaterEfficiency() {
                 helperText={waterEfficientIrrigationUrl.error}
                 required={waterEfficientIrrigationUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {waterEfficientIrrigationUrl.value && (
             <span className="valueInput">
               ({waterEfficientIrrigationUrl.value.name})
@@ -673,23 +726,29 @@ export default function WaterEfficiency() {
           <h5 style={{ color: "red" }}>{waterEfficientIrrigationUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="waterConservationAndManagementPlan">
+            Water Conservation & Management Plan
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 1 } }}
-            label="Water Conservation And Management Plan"
             name="waterConservationAndManagementPlan"
-            placeholder="Water Conservation And Management Plan"
-            value={waterConservationAndManagementPlan.value}
+            value={waterConservationAndManagementPlan.value || ""}
             onChange={handleChange}
             error={!!waterConservationAndManagementPlan.error}
             helperText={waterConservationAndManagementPlan.error}
             required={waterConservationAndManagementPlan.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput1">
+          >
+            {[...Array(2).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput1">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
 
               <input
@@ -704,8 +763,8 @@ export default function WaterEfficiency() {
                 helperText={waterConservationAndManagementPlanUrl.error}
                 required={waterConservationAndManagementPlanUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {waterConservationAndManagementPlanUrl.value && (
             <span className="valueInput">
               ({waterConservationAndManagementPlanUrl.value.name})
@@ -729,27 +788,15 @@ export default function WaterEfficiency() {
             {waterConservationAndManagementPlanUrl.error}
           </h5>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button

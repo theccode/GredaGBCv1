@@ -48,7 +48,6 @@ const Sidebar = () => {
     navigate("/");
   };
 
-  console.log(JSON.stringify(localStorage.getItem("currentUser")));
   return (
     <Box
       sx={{

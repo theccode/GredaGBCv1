@@ -1,6 +1,7 @@
 import React, { useCallback, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
@@ -27,6 +28,16 @@ export default function FirstStep() {
 
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Building Data (BD) </Typography>
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -76,26 +87,6 @@ export default function FirstStep() {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          {/* <TextField
-                        variant={variant}
-                        margin={margin}
-                        fullWidth
-                        select
-                        SelectProps={{
-                            native: true
-                        }}
-                        label="Gender"
-                        name="gender"
-                        value={gender.value}
-                        onChange={handleChange}
-                        error={!!gender.error}
-                        helperText={gender.error}
-                        required={gender.required}
-                    >
-                        <option value=""> </option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </TextField> */}
           <TextField
             variant={variant}
             margin={margin}

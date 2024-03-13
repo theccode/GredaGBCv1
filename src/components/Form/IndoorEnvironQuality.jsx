@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
 import PreviewModal from "../Modal/PreviewModal";
@@ -174,46 +176,67 @@ export default function IndoorEnvironQuality() {
 
   return (
     <>
+      <Box
+        fullWidth
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">
+          Indoor Environmental Quality (IEQ){" "}
+        </Typography>
+      </Box>
       <PreviewModal open={open} setOpen={setOpen}>
         <img src={previewImgSrc} />
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="lowEmittingToxicMaterials">
+            Low Emitting Toxic Materials
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            label="Low Emitting Toxic Materials"
             name="lowEmittingToxicMaterials"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            placeholder="Low Emitting Toxic Materials"
-            value={lowEmittingToxicMaterials.value}
+            value={lowEmittingToxicMaterials.value || ""}
             onChange={handleChange}
             error={!!lowEmittingToxicMaterials.error}
             helperText={lowEmittingToxicMaterials.error}
             required={lowEmittingToxicMaterials.required}
-          />
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="optimumInteriorLighting">
+            Optimum Interior Lighting
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            placeholder="Optimum Interior Lighting"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            label="Optimum Interior Lighting"
             name="optimumInteriorLighting"
-            defaultValue={optimumInteriorLighting.value}
+            value={optimumInteriorLighting.value || ""}
             onChange={handleChange}
             required={optimumInteriorLighting.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="optimumInteriorLightingUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="optimumInteriorLightingUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -227,8 +250,8 @@ export default function IndoorEnvironQuality() {
                 helperText={optimumInteriorLightingUrl.error}
                 required={optimumInteriorLightingUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {optimumInteriorLightingUrl.value && (
             <span className="valueInput">
               ({optimumInteriorLightingUrl.value.name})
@@ -251,23 +274,27 @@ export default function IndoorEnvironQuality() {
           <h5 style={{ color: "red" }}>{optimumInteriorLightingUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="dayLighting">Daylighting</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Daylighting"
             name="dayLighting"
-            placeholder="Daylighting"
-            value={dayLighting.value}
+            value={dayLighting.value || ""}
             onChange={handleChange}
             error={!!dayLighting.error}
             helperText={dayLighting.error}
             required={dayLighting.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="dayLightingUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="dayLightingUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -281,8 +308,8 @@ export default function IndoorEnvironQuality() {
                 helperText={dayLightingUrl.error}
                 required={dayLightingUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {dayLightingUrl.value && (
             <span className="valueInput">({dayLightingUrl.value.name})</span>
           )}
@@ -302,23 +329,27 @@ export default function IndoorEnvironQuality() {
           </span>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="qualityViews">Quality Views</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Quality Views"
             name="qualityViews"
-            placeholder="Quality Views"
-            value={qualityViews.value}
+            value={qualityViews.value || ""}
             onChange={handleChange}
             error={!!qualityViews.error}
             helperText={qualityViews.error}
             required={qualityViews.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="qualityViewsUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="qualityViewsUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -332,8 +363,8 @@ export default function IndoorEnvironQuality() {
                 helperText={qualityViewsUrl.error}
                 required={qualityViewsUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {qualityViewsUrl.value && (
             <span className="valueInput">({qualityViewsUrl.value.name})</span>
           )}
@@ -354,23 +385,27 @@ export default function IndoorEnvironQuality() {
           <h5 style={{ color: "red" }}>{qualityViewsUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="acousticPerformance">Acoustic Performance</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Acoustic Performance"
             name="acousticPerformance"
-            placeholder="Acoustic Performance"
-            value={acousticPerformance.value}
+            value={acousticPerformance.value || ""}
             onChange={handleChange}
             error={!!acousticPerformance.error}
             helperText={acousticPerformance.error}
             required={acousticPerformance.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="acousticPerformanceUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="acousticPerformanceUrl">
+            <Button variant="contained" component="label">
               <AudioFileIcon />
               <input
                 style={{ display: "none" }}
@@ -384,8 +419,8 @@ export default function IndoorEnvironQuality() {
                 helperText={acousticPerformanceUrl.error}
                 required={acousticPerformanceUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {acousticPerformanceUrl.value && (
             <span className="valueInput">
               ({acousticPerformanceUrl.value.name})
@@ -403,40 +438,48 @@ export default function IndoorEnvironQuality() {
           <h5 style={{ color: "red" }}>{acousticPerformanceUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="indoorAirQuality">Indoor Air Quality</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Indoor Air Quality"
             name="indoorAirQuality"
-            placeholder="Indoor Air Quality"
-            value={indoorAirQuality.value}
+            value={indoorAirQuality.value || ""}
             onChange={handleChange}
             error={!!indoorAirQuality.error}
             helperText={indoorAirQuality.error}
             required={indoorAirQuality.required}
-          />
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="noiseAttenuation">Noise Attenuation</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Noise Attenuation"
             name="noiseAttenuation"
-            placeholder="Noise Attenuation"
-            value={noiseAttenuation.value}
+            value={noiseAttenuation.value || ""}
             onChange={handleChange}
             error={!!noiseAttenuation.error}
             helperText={noiseAttenuation.error}
             required={noiseAttenuation.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="noiseAttenuationUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="noiseAttenuationUrl">
+            <Button variant="contained" component="label">
               <AudioFileIcon />
               <input
                 style={{ display: "none" }}
@@ -450,8 +493,8 @@ export default function IndoorEnvironQuality() {
                 helperText={noiseAttenuationUrl.error}
                 required={noiseAttenuationUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {noiseAttenuationUrl.value && (
             <span className="valueInput">
               ({noiseAttenuationUrl.value.name})
@@ -469,23 +512,27 @@ export default function IndoorEnvironQuality() {
           <h5 style={{ color: "red" }}>{noiseAttenuationUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="indoorPlanters">Indoor Planters</label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Indoor Planters"
             name="indoorPlanters"
-            placeholder="Indoor Planters"
             value={indoorPlanters.value}
             onChange={handleChange}
             error={!!indoorPlanters.error}
             helperText={indoorPlanters.error}
             required={indoorPlanters.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="indoorPlantersurl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="indoorPlantersurl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -499,8 +546,8 @@ export default function IndoorEnvironQuality() {
                 helperText={indoorPlantersurl.error}
                 required={indoorPlantersurl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {indoorPlantersurl.value && (
             <span className="valueInput">({indoorPlantersurl.value.name})</span>
           )}
@@ -521,23 +568,29 @@ export default function IndoorEnvironQuality() {
           <h5 style={{ color: "red" }}>{indoorPlantersurl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="roomsWithinTenMetersLightingSource">
+            Rooms Within 10m Natural Lighting Source
+          </label>
+          <Select
             variant={variant}
             margin={margin}
             fullWidth
             type="number"
-            InputProps={{ inputProps: { min: 0, max: 2 } }}
-            label="Rooms within 10m natural lighting source"
             name="roomsWithinTenMetersLightingSource"
-            placeholder="Rooms within 10m natural lighting source"
             value={roomsWithinTenMetersLightingSource.value}
             onChange={handleChange}
             error={!!roomsWithinTenMetersLightingSource.error}
             helperText={roomsWithinTenMetersLightingSource.error}
             required={roomsWithinTenMetersLightingSource.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="roomsWithinTenMetersLightingSourceUrl">
+          >
+            {[...Array(3).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="roomsWithinTenMetersLightingSourceUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -551,8 +604,8 @@ export default function IndoorEnvironQuality() {
                 helperText={roomsWithinTenMetersLightingSourceUrl.error}
                 required={roomsWithinTenMetersLightingSourceUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {roomsWithinTenMetersLightingSourceUrl.value && (
             <span className="valueInput">
               ({roomsWithinTenMetersLightingSourceUrl.value.name})
@@ -576,27 +629,15 @@ export default function IndoorEnvironQuality() {
             {roomsWithinTenMetersLightingSourceUrl.error}
           </h5>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button

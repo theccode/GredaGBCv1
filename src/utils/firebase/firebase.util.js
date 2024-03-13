@@ -33,7 +33,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const auth = getAuth();
 export const db = getFirestore();
 const storage = getStorage();
@@ -41,7 +41,18 @@ const storage = getStorage();
 export const saveDataToFirestore = async (buildingName, data) => {
   try {
     if (buildingName && data) {
-      await setDoc(doc(db, "greda-gbc-data", buildingName), data);
+      // Replace undefined values with empty string
+      const filteredData = Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [
+          key,
+          value === undefined ? "" : value,
+        ])
+      );
+
+      const docRef = doc(db, "greda-gbc-data", buildingName);
+      if (docRef) {
+        await setDoc(docRef, filteredData);
+      }
     }
     return true;
   } catch (error) {
@@ -49,6 +60,7 @@ export const saveDataToFirestore = async (buildingName, data) => {
     return false;
   }
 };
+
 export const getBuildingData = async () => {
   const collectionRef = collection(db, "greda-gbc-data");
   const q = query(collectionRef);
@@ -78,15 +90,16 @@ export const createUserDocumentFromAuth = async (user, additionalInfo = {}) => {
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { email, displayName, phoneNumber, photoURL } = user;
+    const { email, displayName, phoneNumber, photoURL, isAdmin } = user;
     const date = new Date();
     try {
-      const res = await setDoc(userDocRef, {
+      await setDoc(userDocRef, {
         email,
         displayName,
         phoneNumber,
         photoURL,
         date,
+        isAdmin: false,
         ...additionalInfo,
       });
     } catch (error) {
@@ -147,7 +160,6 @@ export default async function uploadMediaFiles(mediaFiles) {
   );
 
   const mediaFileUrls = await Promise.all(mediaFilePromises);
-  // console.log(JSON.stringify(mediaFileUrls, null, 2));
   return mediaFileUrls; // list of url like ["https://..", ...]
 }
 

@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "../../.."
+	},
+	{
+		"path": "../../../../crwn-clothing"
+	},
+	{
+		"path": "../../../../react-admin"
+	}
+],
+  "settings": {}
+}

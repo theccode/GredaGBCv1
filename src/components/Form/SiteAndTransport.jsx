@@ -1,7 +1,9 @@
 import React, { useCallback, useContext, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { AppContext } from "../../context/form.context";
 import PreviewModal from "../Modal/PreviewModal";
@@ -9,6 +11,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { useJsApiLoader } from "@react-google-maps/api";
 import MapModal from "../Modal/Modal";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { TextField } from "@mui/material";
 export default function SiteAndTransport() {
   const [landscapingAndPlantersImageSrc, setLandscapingAndPlantersImageSrc] =
     useState(null);
@@ -16,15 +19,16 @@ export default function SiteAndTransport() {
     facilitiesForCyclingOrWalkingImageSrc,
     setFacilitiesForCyclingOrWalkingImgSrc,
   ] = useState(null);
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyBcToE_NsPbwhi45kvxkmtBZVVmiAtjPqc",
+  });
   const [open, setOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
   const [previewImgSrc, sestPreviewImgSrc] = useState("");
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [city, setCity] = useState("");
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBcToE_NsPbwhi45kvxkmtBZVVmiAtjPqc",
-  });
+
   const { formValues, handleChange, handleBack, handleNext, variant, margin } =
     useContext(AppContext);
   const {
@@ -93,23 +97,25 @@ export default function SiteAndTransport() {
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
       const latlng = new window.google.maps.LatLng(lat, lng);
-      geocoder.geocode({ location: latlng }, (results, status) => {
-        if (status === "OK") {
-          if (results[0]) {
-            for (let i = 0; i < results[0].address_components.length; i++) {
-              const types = results[0].address_components[i].types;
-              if (types.includes("locality") || types.includes("political")) {
-                setCity(results[0].address_components[i].long_name);
-                break;
+      latlng &&
+        geocoder &&
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === "OK") {
+            if (results && results[0]) {
+              for (let i = 0; i < results[0].address_components.length; i++) {
+                const types = results[0].address_components[i].types;
+                if (types.includes("locality") || types.includes("political")) {
+                  setCity(results[0].address_components[i].long_name);
+                  break;
+                }
               }
+            } else {
+              console.log("No results found");
             }
           } else {
-            console.log("No results found");
+            console.log("Geocoder failed due to: " + status);
           }
-        } else {
-          console.log("Geocoder failed due to: " + status);
-        }
-      });
+        });
     }
   }, [isLoaded, lat, lng]);
   const handleSave = () => {
@@ -119,6 +125,15 @@ export default function SiteAndTransport() {
 
   return (
     <>
+      <Box
+        sx={{
+          textAlign: "center",
+          marginBottom: "20px",
+          color: "green",
+        }}
+      >
+        <Typography variant="h2">Site And Transport (ST)</Typography>
+      </Box>
       <MapModal
         open={locationOpen}
         setOpen={setLocationOpen}
@@ -131,58 +146,66 @@ export default function SiteAndTransport() {
       </PreviewModal>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label htmlFor="protectOrRestoreHabitat">
+            Protect or Restore Habitat
+          </label>
+          <Select
             variant={variant}
-            margin={margin}
             fullWidth
-            type="number"
             label="Protect Or Restore Habitat"
+            value={protectOrRestoreHabitat.value || ""}
+            type="number"
             name="protectOrRestoreHabitat"
-            InputProps={{ inputProps: { min: 0, max: 6 } }}
-            placeholder="Protect Or Restore Habitat"
-            value={protectOrRestoreHabitat.value}
             onChange={handleChange}
             error={!!protectOrRestoreHabitat.error}
-            helperText={protectOrRestoreHabitat.error}
             required={protectOrRestoreHabitat.required}
-          />
+          >
+            {[...Array(7).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="Heat Island Reduction">Heat Island Reduction</label>
+          <Select
             variant={variant}
-            margin={margin}
             fullWidth
-            type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
-            placeholder="Heat Island Reduction"
-            InputLabelProps={{
-              shrink: true,
-            }}
             label="Heat Island Reduction"
             name="heatIslandReduction"
-            defaultValue={heatIslandReduction.value}
+            value={heatIslandReduction.value || ""}
             onChange={handleChange}
+            error={!!heatIslandReduction.error}
             required={heatIslandReduction.required}
-          />
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="landscapingAndPlanters">Landscaping and Planters</label>
+          <Select
             variant={variant}
-            margin={margin}
             fullWidth
-            type="number"
-            InputProps={{ inputProps: { min: 0, max: 4 } }}
             label="Landscaping And Planters"
             name="landscapingAndPlanters"
-            placeholder="Landscaping And Planters"
-            value={landscapingAndPlanters.value}
+            value={landscapingAndPlanters.value || ""}
             onChange={handleChange}
             error={!!landscapingAndPlanters.error}
-            helperText={landscapingAndPlanters.error}
             required={landscapingAndPlanters.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput">
+          >
+            {[...Array(5).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="cameraFileInput">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
                 style={{ display: "none" }}
@@ -196,8 +219,8 @@ export default function SiteAndTransport() {
                 helperText={landscapingAndPlantersUrl.error}
                 required={landscapingAndPlantersUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {landscapingAndPlantersUrl.value && (
             <span className="valueInput">
               ({landscapingAndPlantersUrl.value.name})
@@ -220,21 +243,24 @@ export default function SiteAndTransport() {
           <h5 style={{ color: "red" }}>{landscapingAndPlantersUrl.error}</h5>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="accessToPublicTransport">
+            Access To Publilc Transport
+          </label>
+          <Select
             variant={variant}
-            margin={margin}
             fullWidth
-            type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            label="Access To Public Transport"
             name="accessToPublicTransport"
-            placeholder="Access To Public Transport"
-            value={accessToPublicTransport.value}
+            value={accessToPublicTransport.value || ""}
             onChange={handleChange}
             error={!!accessToPublicTransport.error}
-            helperText={accessToPublicTransport.error}
             required={accessToPublicTransport.required}
-          />
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
           <Button
             variant="contained"
             component="label"
@@ -259,27 +285,29 @@ export default function SiteAndTransport() {
           </Button>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6} xl={4}>
-          <TextField
+          <label for="facilitiesForCyclingOrWalking">
+            Facilities for Cycling or Walkling
+          </label>
+          <Select
             variant={variant}
-            margin={margin}
             fullWidth
-            type="number"
-            InputProps={{ inputProps: { min: 0, max: 3 } }}
-            defaultValue="0"
-            label="Facilities for Cycling or Walking"
             name="facilitiesForCyclingOrWalking"
-            placeholder="Facilities for Cycling or Walking"
-            value={facilitiesForCyclingOrWalking.value}
+            value={facilitiesForCyclingOrWalking.value || ""}
             onChange={handleChange}
             error={!!facilitiesForCyclingOrWalking.error}
-            helperText={facilitiesForCyclingOrWalking.error}
             required={facilitiesForCyclingOrWalking.required}
-          />
-          <Button variant="contained" component="label">
-            <label for="cameraFileInput">
+          >
+            {[...Array(4).keys()].map((number) => (
+              <MenuItem key={number} value={String(number)}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+          <label for="facilitiesForCyclingOrWalkingUrl">
+            <Button variant="contained" component="label">
               <AddPhotoAlternateIcon />
               <input
-                id="cameraFileInput2"
+                id="facilitiesForCyclingOrWalkingUrl"
                 type="file"
                 style={{ display: "none", backgroundColor: "white" }}
                 accept="image/*"
@@ -290,8 +318,8 @@ export default function SiteAndTransport() {
                 helperText={facilitiesForCyclingOrWalkingUrl.error}
                 required={facilitiesForCyclingOrWalkingUrl.required}
               />
-            </label>
-          </Button>
+            </Button>
+          </label>
           {facilitiesForCyclingOrWalkingUrl.value && (
             <span className="valueInput">
               : ({facilitiesForCyclingOrWalkingUrl.value.name})
@@ -315,26 +343,14 @@ export default function SiteAndTransport() {
             {facilitiesForCyclingOrWalkingUrl.error}
           </h5>
         </Grid>
-        {/* <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={agreenemt.value}
-                                onChange={handleChange}
-                                name="agreenemt"
-                                color="primary"
-                                required={agreenemt.required}
-                            />
-                        }
-                        label="Agree to terms and conditions"
-                    />
-                    <FormHelperText error={!!agreenemt.error}>
-                        {agreenemt.error}
-                    </FormHelperText>
-                </Grid> */}
       </Grid>
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1, backgroundColor: "white" }}>
+        <Button
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+          variant="contained"
+          color="secondary"
+        >
           Back
         </Button>
         <Button
